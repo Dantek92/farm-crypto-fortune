@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Farm Crypto Fortune - Gioco 3D con TON Crypto">
+    <title>Farm Crypto Fortune</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Font Awesome per icone -->
+    <script src="https://kit.fontawesome.com/1234567890.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Schermata Caricamento Iniziale -->
+    <div id="initialLoading" class="loading-screen">
+        <div class="logo-container">
+            <div class="logo">
+                <span>🌾</span>
+                <span>💎</span>
+            </div>
+            <h1>Farm Crypto Fortune</h1>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schermata Autenticazione -->
+    <div id="authScreen" class="auth-screen hidden">
+        <div class="auth-container">
+            <div class="auth-header">
+                <div class="logo-small">🌾💎</div>
+                <h2>Farm Crypto Fortune</h2>
+            </div>
+            
+            <div id="authTabs">
+                <button id="loginTab" class="active">
+                    <i class="fas fa-sign-in-alt"></i> Accedi
+                </button>
+                <button id="registerTab">
+                    <i class="fas fa-user-plus"></i> Registrati
+                </button>
+            </div>
+            
+            <form id="authForm">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="username" placeholder="Email" required>
+                </div>
+                
+                <div id="passwordFields">
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Password" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirmPassword" placeholder="Conferma Password">
+                    </div>
+                </div>
+                
+                <button type="submit" id="authSubmit" class="btn-primary">
+                    <i class="fas fa-spinner fa-spin hidden"></i>
+                    <span>Continua</span>
+                </button>
+            </form>
+            
+            <div id="recoveryLink" class="recovery-link">
+                <a href="#" id="forgotPassword">
+                    <i class="fas fa-question-circle"></i> Password dimenticata?
+                </a>
+            </div>
+            
+            <div class="divider">oppure</div>
+            
+            <button id="guestLogin" class="btn-secondary">
+                <i class="fas fa-user-secret"></i> Gioca come Ospite
+            </button>
+        </div>
+    </div>
+
+    <!-- Schermata Principale -->
+    <div id="mainScreen" class="hidden">
+        <div id="loading" class="loading-screen hidden">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p>Caricamento Farm 3D...</p>
+            </div>
+        </div>
+        <div id="container"></div>
+        
+        <div id="ui">
+            <div id="userBar" class="user-bar">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="displayName">Utente</span>
+                </div>
+                <button id="logoutBtn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+            
+            <div class="game-header">
+                <h1>🌾 Farm Crypto Fortune</h1>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">💎</div>
+                        <div class="stat-value" id="ton">0</div>
+                        <div class="stat-label">TON</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🌱</div>
+                        <div class="stat-value" id="plots">3/12</div>
+                        <div class="stat-label">Slot</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="controls" class="controls">
+                <button id="plantBtn" class="btn-action">
+                    <i class="fas fa-seedling"></i> Piantare
+                </button>
+                <button id="harvestBtn" class="btn-action">
+                    <i class="fas fa-harvest"></i> Raccogli
+                </button>
+                <button id="expandBtn" class="btn-action">
+                    <i class="fas fa-expand"></i> Espandi
+                </button>
+            </div>
+            
+            <div id="crops" class="crops">
+                <div class="crop-item">
+                    <input type="radio" id="crop1" name="cropType" value="piantina" checked>
+                    <label for="crop1">
+                        <div class="crop-icon">🌱</div>
+                        <div class="crop-name">Piantina</div>
+                        <div class="crop-time">30s</div>
+                    </label>
+                </div>
+                <div class="crop-item">
+                    <input type="radio" id="crop2" name="cropType" value="patata">
+                    <label for="crop2">
+                        <div class="crop-icon">🥔</div>
+                        <div class="crop-name">Patata</div>
+                        <div class="crop-time">60s</div>
+                    </label>
+                </div>
+                <div class="crop-item">
+                    <input type="radio" id="crop3" name="cropType" value="grano">
+                    <label for="crop3">
+                        <div class="crop-icon">🌾</div>
+                        <div class="crop-name">Grano</div>
+                        <div class="crop-time">90s</div>
+                    </label>
+                </div>
+                <div class="crop-item">
+                    <input type="radio" id="crop4" name="cropType" value="pannocchia">
+                    <label for="crop4">
+                        <div class="crop-icon">🌽</div>
+                        <div class="crop-name">Pannocchia</div>
+                        <div class="crop-time">120s</div>
+                    </label>
+                </div>
+            </div>
+            
+            <div id="plantTimers" class="plant-timers"></div>
+            
+            <!-- Sezione Donazioni -->
+            <div id="donateSection" class="donate-section">
+                <div class="donate-header" onclick="window.authManager?.openDonatePopup()">
+                    <h3><i class="fas fa-gem"></i> Supporta Farm Crypto Fortune</h3>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Donazioni -->
+    <div id="donatePopup" class="popup hidden">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2><i class="fas fa-gem"></i> Supporta lo Sviluppo</h2>
+                <span id="closePopup" class="close">&times;</span>
+            </div>
+            
+            <div class="premium-features">
+                <div class="premium-feature">
+                    <div class="feature-icon">🌱</div>
+                    <div class="feature-content">
+                        <strong>Espansione Slot</strong>
+                        <small>Passa da 12 a 20 slot totali</small>
+                    </div>
+                    <div class="feature-price">2 TON</div>
+                </div>
+                
+                <div class="premium-feature">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-content">
+                        <strong>Crescita Veloce</strong>
+                        <small>Riduci i tempi del 50%</small>
+                    </div>
+                    <div class="feature-price">1 TON</div>
+                </div>
+                
+                <div class="premium-feature">
+                    <div class="feature-icon">💰</div>
+                    <div class="feature-content">
+                        <strong>Raccolto Bonus</strong>
+                        <small>+50% TON per raccolto</small>
+                    </div>
+                    <div class="feature-price">3 TON</div>
+                </div>
+            </div>
+            
+            <div class="ton-address">
+                <p><strong>Il mio indirizzo TON:</strong></p>
+                <code id="tonAddress">EQCD39...IL_TUO_INDIRIZZO</code>
+                <button id="copyAddress" class="btn-copy">
+                    <i class="fas fa-copy"></i> Copia
+                </button>
+            </div>
+            
+            <div class="popup-actions">
+                <button id="confirmDonation" class="btn-confirm">
+                    <i class="fas fa-check-circle"></i> Ho Inviato una Donazione
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale Recupero Password -->
+    <div id="recoveryPopup" class="popup hidden">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2><i class="fas fa-envelope"></i> Recupera Password</h2>
+                <span id="closeRecovery" class="close">&times;</span>
+            </div>
+            
+            <div class="recovery-content">
+                <p>Inserisci la tua email per ricevere un link di recupero:</p>
+                <form id="recoveryForm">
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="recoveryEmail" placeholder="tua@email.com" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-paper-plane"></i> Invia Link
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="main.js"></script>
+    
+    <!-- Script caricamento iniziale -->
+    <script>
+        // Simula caricamento risorse
+        setTimeout(() => {
+            document.getElementById('initialLoading').classList.add('hidden');
+        }, 2000);
+    </script>
+</body>
+</html>
