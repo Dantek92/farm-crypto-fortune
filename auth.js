@@ -163,5 +163,6 @@ class AuthManager {
 }
 
 // Avvia il sistema di autenticazione
+const { firebaseConfig } = window;
 const authManager = new AuthManager();
 window.authManager = authManager;

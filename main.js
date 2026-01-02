@@ -1,7 +1,7 @@
 // main.js
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
+const { firebaseConfig } = window;
 // Attendi che l'autenticazione sia pronta
 window.addEventListener('load', () => {
     if (window.authManager?.currentUser) {
